@@ -1,0 +1,93 @@
+{
+  "projects": [
+    {
+      "id": "1298",
+      "category": {
+        "id": "1",
+        "name": "Infra"
+      },
+      "name": "Teste Válido 1",
+      "budget": 10000,
+      "cost": 10000,
+      "services": [
+        {
+          "name": "Serviço 1 ",
+          "cost": 6000,
+          "description": "Serviço de Teste",
+          "id": "67f766bc-eea9-49ca-a5c3-4cb11e08db37"
+        },
+        {
+          "name": "Serviço 2 ",
+          "cost": 4000,
+          "description": "Teste 2",
+          "id": "05db537e-69f5-44d6-8af6-af8dae02e431"
+        }
+      ]
+    },
+    {
+      "id": "95ce",
+      "name": "projeto456",
+      "budget": 6000000,
+      "category": {
+        "id": "1",
+        "name": "Infra"
+      },
+      "cost": 3030,
+      "services": [
+        {
+          "name": "trgtrere",
+          "cost": 20,
+          "description": ",,,,",
+          "id": "9214820f-6fdc-4e53-8915-a3ba3cde8fb1"
+        },
+        {
+          "name": "teste 3",
+          "cost": 1000,
+          "description": "teste 3",
+          "id": "131ae2dd-5851-4445-b7c9-266792007394"
+        },
+        {
+          "name": "teste 4",
+          "cost": 2000,
+          "description": "teste 4",
+          "id": "fe15a973-a9ad-4f7b-acc2-bcfc4e596ed0"
+        },
+        {
+          "name": "teste 5",
+          "cost": 10,
+          "description": "teste 5",
+          "id": "b6ff8c85-60c3-4a6e-b7f1-84ee92dc413d"
+        }
+      ]
+    },
+    {
+      "id": "8cae",
+      "name": "testando",
+      "budget": 600,
+      "category": {
+        "id": 3,
+        "name": "Design"
+      },
+      "services": [],
+      "cost": 0
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "name": "Infra"
+    },
+    {
+      "id": "2",
+      "name": "Desenvolvimento"
+    },
+    {
+      "id": "3",
+      "name": "Design"
+    },
+    {
+      "id": "4",
+      "name": "Planejamento"
+    }
+  ]
+}
