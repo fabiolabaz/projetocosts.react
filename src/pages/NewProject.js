@@ -19,7 +19,7 @@ function NewProject() {
       return;
     }
 
-    fetch("http://localhost:5000/projects", {
+    fetch("https://projeto-costs.onrender.com/projects", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(projectData),

@@ -15,7 +15,7 @@ function ProjectForm({ handleSubmit, btnText, projectData }) {
 
   // Carregar categorias
   useEffect(() => {
-    fetch("http://localhost:5000/categories")
+    fetch("https://projeto-costs.onrender.com/projects")
       .then((resp) => resp.json())
       .then((data) => setCategories(data))
       .catch((err) => console.log("Erro ao carregar categorias:", err));

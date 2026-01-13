@@ -19,7 +19,7 @@ function Projects() {
 
   // Remover projeto
   function removeProject(id) {
-    fetch(`http://localhost:5000/projects/${id}`, {
+    fetch(`https://projeto-costs.onrender.com/projects/${id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     })
@@ -32,7 +32,7 @@ function Projects() {
 
   // Carregar projetos
   useEffect(() => {
-    fetch("http://localhost:5000/projects")
+    fetch("https://projeto-costs.onrender.com/projects")
       .then((resp) => resp.json())
       .then((data) => {
         setProjects(data);

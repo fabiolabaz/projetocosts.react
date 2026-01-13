@@ -22,11 +22,13 @@ function Project() {
   const [message, setMessage] = useState("");
   const [type, setType] = useState("");
 
+  const API_URL = "https://projeto-costs.onrender.com";
+
   /* ===============================
         BUSCAR PROJETO
   ================================ */
   useEffect(() => {
-    fetch(`http://localhost:5000/projects/${id}`)
+    fetch(`${API_URL}/projects/${id}`)
       .then((resp) => resp.json())
       .then((data) => {
         setProject(data);
@@ -40,27 +42,30 @@ function Project() {
         ADICIONAR SERVIÇO
   ================================ */
   function createService(projectData) {
-    if (!projectData.services) projectData.services = [];
+    const updatedProject = { ...projectData };
 
-    const lastService = projectData.services[projectData.services.length - 1];
-    lastService.id = uuidv4();
+    if (!updatedProject.services) updatedProject.services = [];
 
-    const lastServiceCost = Number(lastService.cost);
-    const newCost = Number(projectData.cost || 0) + lastServiceCost;
+    const newService =
+      updatedProject.services[updatedProject.services.length - 1];
+    newService.id = uuidv4();
 
-    if (newCost > Number(projectData.budget)) {
+    const newCost = Number(updatedProject.cost || 0) + Number(newService.cost);
+
+    if (newCost > Number(updatedProject.budget)) {
       setMessage("Orçamento ultrapassado, verifique o valor do serviço");
       setType("error");
-      projectData.services.pop();
-      return false;
+
+      updatedProject.services.pop();
+      return;
     }
 
-    projectData.cost = newCost;
+    updatedProject.cost = newCost;
 
-    fetch(`http://localhost:5000/projects/${projectData.id}`, {
+    fetch(`${API_URL}/projects/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(projectData),
+      body: JSON.stringify(updatedProject),
     })
       .then((resp) => resp.json())
       .then((data) => {
@@ -84,13 +89,13 @@ function Project() {
 
     const payload = {
       id: updatedProject.id,
-      name: updatedProject.name || "",
+      name: updatedProject.name,
       budget: Number(updatedProject.budget),
-      cost: Number(updatedProject.cost ?? 0),
-      category: updatedProject.category || { id: null, name: "" },
+      cost: Number(updatedProject.cost || 0),
+      category: updatedProject.category,
     };
 
-    fetch(`http://localhost:5000/projects/${payload.id}`, {
+    fetch(`${API_URL}/projects/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -102,33 +107,32 @@ function Project() {
         setMessage("Projeto atualizado com sucesso!");
         setType("success");
       })
-      .catch((err) => {
-        console.error("Erro ao atualizar projeto:", err);
-        alert("Erro ao atualizar o projeto");
-      });
+      .catch((err) => console.log(err));
   }
 
   /* ===============================
         REMOVER SERVIÇO
   ================================ */
-  function removeService(id, cost) {
-    const servicesUpdated = project.services.filter(
-      (service) => service.id !== id
+  function removeService(serviceId, cost) {
+    const servicesUpdated = services.filter(
+      (service) => service.id !== serviceId
     );
 
-    const projectUpdated = { ...project };
-    projectUpdated.services = servicesUpdated;
-    projectUpdated.cost = parseFloat(projectUpdated.cost) - parseFloat(cost);
+    const projectUpdated = {
+      ...project,
+      services: servicesUpdated,
+      cost: Number(project.cost) - Number(cost),
+    };
 
-    fetch(`http://localhost:5000/projects/${projectUpdated.id}`, {
+    fetch(`${API_URL}/projects/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(projectUpdated),
     })
       .then((resp) => resp.json())
       .then((data) => {
-        setProject(projectUpdated);
-        setServices(servicesUpdated);
+        setProject(data);
+        setServices(data.services || []);
         setMessage("Serviço removido com sucesso!");
         setType("success");
       })
@@ -154,7 +158,6 @@ function Project() {
           <p className={`${styles.message} ${styles[type]}`}>{message}</p>
         )}
 
-        {/* BOTÃO EDITAR PROJETO */}
         <button className={styles.btn} onClick={toggleProjectForm}>
           {!showProjectForm ? "Editar projeto" : "Fechar"}
         </button>
@@ -162,27 +165,24 @@ function Project() {
         {!showProjectForm ? (
           <div className={styles.project_info}>
             <p>
-              <span>Categoria: </span>
+              <span>Categoria:</span>{" "}
               {project.category?.name || "Sem categoria"}
             </p>
             <p>
-              <span>Total de Orçamento: </span>R${project.budget}
+              <span>Orçamento:</span> R$ {project.budget}
             </p>
             <p>
-              <span>Total Utilizado: </span>R${project.cost ?? 0}
+              <span>Utilizado:</span> R$ {project.cost || 0}
             </p>
           </div>
         ) : (
           <ProjectForm
             handleSubmit={editPost}
-            btnText="Concluir edição"
+            btnText="Salvar"
             projectData={project}
           />
         )}
 
-        {/* ===========================
-              SERVIÇOS
-        ============================ */}
         <div className={styles.services_header}>
           <h2>Serviços</h2>
           <button className={styles.btn} onClick={toggleServiceForm}>
