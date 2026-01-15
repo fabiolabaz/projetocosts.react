@@ -8,12 +8,12 @@ function ProjectForm({ handleSubmit, btnText, projectData }) {
   const [categories, setCategories] = useState([]);
   const [project, setProject] = useState(projectData || {});
 
-  // Atualiza project quando projectData mudar (edição)
+  // Atualiza project quando projectData mudar
   useEffect(() => {
     setProject(projectData || {});
   }, [projectData]);
 
-  // 🔹 CARREGAR CATEGORIAS (CORRIGIDO)
+  // 🔹 CARREGAR CATEGORIAS
   useEffect(() => {
     fetch("https://projeto-costs.onrender.com/categories")
       .then((resp) => resp.json())
@@ -38,7 +38,7 @@ function ProjectForm({ handleSubmit, btnText, projectData }) {
     setProject({ ...project, [e.target.name]: value });
   }
 
-  // 🔹 Alterar categoria (correto para seu db.json)
+  // 🔹 Alterar categoria
   function handleCategory(e) {
     const selectedCategory = categories.find(
       (cat) => cat.id === e.target.value
