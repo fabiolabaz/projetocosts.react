@@ -13,21 +13,21 @@ function ProjectForm({ handleSubmit, btnText, projectData }) {
     setProject(projectData || {});
   }, [projectData]);
 
-  // Carregar categorias
+  // 🔹 CARREGAR CATEGORIAS (CORRIGIDO)
   useEffect(() => {
-    fetch("https://projeto-costs.onrender.com/projects")
+    fetch("https://projeto-costs.onrender.com/categories")
       .then((resp) => resp.json())
       .then((data) => setCategories(data))
       .catch((err) => console.log("Erro ao carregar categorias:", err));
   }, []);
 
   // Envio do formulário
-  const submit = (e) => {
+  function submit(e) {
     e.preventDefault();
     handleSubmit(project);
-  };
+  }
 
-  // Alterar campos do formulário
+  // Alterar campos
   function handleChange(e) {
     let value = e.target.value;
 
@@ -38,12 +38,11 @@ function ProjectForm({ handleSubmit, btnText, projectData }) {
     setProject({ ...project, [e.target.name]: value });
   }
 
-  // Alterar categoria
+  // 🔹 Alterar categoria (correto para seu db.json)
   function handleCategory(e) {
-    const selectedCategory = {
-      id: Number(e.target.value),
-      name: e.target.options[e.target.selectedIndex].text,
-    };
+    const selectedCategory = categories.find(
+      (cat) => cat.id === e.target.value
+    );
 
     setProject({ ...project, category: selectedCategory });
   }
